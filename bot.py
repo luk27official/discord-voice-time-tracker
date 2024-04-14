@@ -126,7 +126,7 @@ async def guild_statistics(interaction):
         top10_users = []
         fmt = '{0.days} days {0.hours} hours {0.minutes} minutes'
         for user in top10:
-            top10_users.append(f"<@!{user['id']}>: {fmt.format(rd(seconds=int(user["totalTime"])))}")
+            top10_users.append(f'<@!{user['id']}>: {fmt.format(rd(seconds=int(user["totalTime"])))}')
 
         final_msg = "Top 10 active users:\n" + "\n".join([f"{i+1}. {user}" for i, user in enumerate(top10_users)])
 
