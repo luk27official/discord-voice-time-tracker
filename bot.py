@@ -103,8 +103,10 @@ async def user_statistics(interaction: discord.Interaction):
         users = json.load(f)
         for user in users:
             if user["id"] == id_to_search:
+                fmt = "{0.days} days {0.hours} hours {0.minutes} minutes"
+
                 await interaction.response.send_message(
-                    f"User <@!{id_to_search}> has spent {user['totalTime']} seconds in voice channels."
+                    f"User <@!{id_to_search}> has spent {fmt.format(rd(seconds=int(user["totalTime"])))} in voice channels."
                 )
                 return
 
@@ -130,7 +132,7 @@ async def guild_statistics(interaction: discord.Interaction):
 
         final_msg = "Top 10 active users:\n" + "\n".join([f"{i+1}. {user}" for i, user in enumerate(top10_users)])
 
-        await interaction.response.send_message(final_msg)
+        await interaction.response.send_message(final_msg, allowed_mentions=discord.AllowedMentions.none())
 
 
 def main():
