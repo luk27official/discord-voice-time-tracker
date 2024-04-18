@@ -93,11 +93,13 @@ async def my_background_task():
         json.dump(final_users, f)
 
 
-@bot.tree.command(name="ustat", description="Get your user statistics")
+@bot.tree.command(name="ustat", description="Get user statistics")
 async def user_statistics(interaction: discord.Interaction):
     # id to search is either the author or the id given in the command
-    # TODO: get the id from the command
-    id_to_search = interaction.user.id
+    if interaction.message.mentions:
+        id_to_search = interaction.message.mentions[0].id
+    else:
+        id_to_search = interaction.user.id
 
     # get the stats for a user given in the command
     with open("disconnected_users.json", "r") as f:
@@ -107,11 +109,12 @@ async def user_statistics(interaction: discord.Interaction):
                 fmt = "{0.days} days {0.hours} hours {0.minutes} minutes"
 
                 await interaction.response.send_message(
-                    f"User <@!{id_to_search}> has spent {fmt.format(rd(seconds=int(user["totalTime"])))} in voice channels."
+                    f"User <@!{id_to_search}> has spent {fmt.format(rd(seconds=int(user["totalTime"])))} in voice channels.",
+                    allowed_mentions=discord.AllowedMentions.none()
                 )
                 return
 
-    await interaction.response.send_message(f"User <@!{id_to_search}> has not spent any time in voice channels.")
+    await interaction.response.send_message(f"User <@!{id_to_search}> has not spent any time in voice channels.", allowed_mentions=discord.AllowedMentions.none())
 
 
 @bot.tree.command(name="gstat", description="Get the top10 for the whole server")
