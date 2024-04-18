@@ -18,6 +18,7 @@ bot = commands.Bot(command_prefix="/", intents=discord.Intents.all())
 async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
 
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="/gstat, /ustat"))
     await bot.tree.sync()
     my_background_task.start()
 
