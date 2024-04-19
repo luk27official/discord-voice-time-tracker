@@ -45,6 +45,8 @@ async def my_background_task():
         for guild in bot.guilds:
             for channel in guild.voice_channels:
                 for member in channel.members:
+                    if member.voice.deaf or member.voice.self_deaf: # ignore deafened users
+                        continue
                     active_members.append(member)
 
         # check if the user is already in the list
