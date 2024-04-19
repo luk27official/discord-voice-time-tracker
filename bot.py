@@ -97,11 +97,7 @@ async def my_background_task():
 
 @bot.tree.command(name="ustat", description="Get user statistics")
 async def user_statistics(interaction: discord.Interaction):
-    # id to search is either the author or the id given in the command
-    if interaction.message.mentions:
-        id_to_search = interaction.message.mentions[0].id
-    else:
-        id_to_search = interaction.user.id
+    id_to_search = interaction.user.id
 
     # get the stats for a user given in the command
     with open("disconnected_users.json", "r") as f:
